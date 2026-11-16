@@ -29,7 +29,15 @@ export default {
 
       const formData = await request.formData();
       const image = formData.get("image");
-
+const debugInfo = {
+  contentType: request.headers.get("content-type"),
+  imageExists: !!image,
+  imageType: image?.constructor?.name,
+  imageSize: image?.size
+};return new Response(JSON.stringify(debugInfo), {
+  status: 200,
+  headers: { ...corsHeaders, "Content-Type": "application/json" }
+});
       if (!image) {
         return new Response(
           JSON.stringify({ error: "Image is required" }),
